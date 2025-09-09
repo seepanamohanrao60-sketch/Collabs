@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Restaurant Collections Dashboard</title>
+  <style>
+    /* Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff9f4;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #d35400;
+      color: white;
+      padding: 1.8rem 2rem;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(211, 84, 0, 0.6);
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      margin-bottom: 0.3rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      font-weight: 400;
+      opacity: 0.9;
+    }
+
+    nav {
+      background-color: #e67e22;
+      display: flex;
+      justify-content: center;
+      padding: 1rem 0.5rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+      box-shadow: inset 0 -3px 6px rgba(230, 126, 34, 0.3);
+    }
+
+    nav button {
+      background-color: #f39c12;
+      border: none;
+      color: white;
+      padding: 0.6rem 1.3rem;
+      border-radius: 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+      box-shadow: 0 2px 6px rgba(243, 156, 18, 0.6);
+    }
+
+    nav button:hover,
+    nav button.active {
+      background-color: #d35400;
+      box-shadow: 0 4px 12px rgba(211, 84, 0, 0.9);
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 2rem 2rem 3rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .restaurant-card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .restaurant-card:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .restaurant-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 3px solid #e67e22;
+    }
+
+    .restaurant-info {
+      padding: 1.2rem 1.5rem 1.8rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .restaurant-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: #d35400;
+      text-transform: capitalize;
+    }
+
+    .restaurant-cuisine {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: #7f8c8d;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .collection-desc {
+      font-size: 1rem;
+      color: #555;
+      line-height: 1.4;
+      flex-grow: 1;
+    }
+
+    @media (max-width: 480px) {
+      nav {
+        gap: 0.5rem;
+      }
+
+      nav button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Restaurant Collections Dashboard</h1>
+    <p>Discover delicious restaurants and their signature collections</p>
+  </header>
+
+  <nav>
+    <button class="filter-btn active" data-category="all">All</button>
+    <button class="filter-btn" data-category="Italian">Italian</button>
+    <button class="filter-btn" data-category="Japanese">Japanese</button>
+    <button class="filter-btn" data-category="Mexican">Mexican</button>
+    <button class="filter-btn" data-category="American">American</button>
+  </nav>
+
+  <main id="restaurant-container">
+    <!-- Restaurant cards generated here -->
+  </main>
+
+  <script>
+    const restaurants = [
+      {
+        name: "Bella Italia",
+        cuisine: "Italian",
+        image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=800&q=80",
+        collection: "Authentic Pasta & Wood-Fired Pizzas"
+      },
+      {
+        name: "Sakura Sushi",
+        cuisine: "Japanese",
+        image: "https://images.unsplash.com/photo-1562158070-1c32a0b8fa25?auto=format&fit=crop&w=800&q=80",
+        collection: "Fresh Sushi & Sashimi Platters"
+      },
+      {
+        name: "El Toro",
+        cuisine: "Mexican",
+        image: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=800&q=80",
+        collection: "Tacos, Burritos & Traditional Salsas"
+      },
+      {
+        name: "Grill House",
+        cuisine: "American",
+        image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=800&q=80",
+        collection: "Juicy Burgers & BBQ Specials"
+      },
+      {
+        name: "Trattoria Roma",
+        cuisine: "Italian",
+        image: "https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=800&q=80",
+        collection: "Classic Italian Antipasti & Wines"
+      },
+      {
+        name: "Tokyo Table",
+        cuisine: "Japanese",
+        image: "https://images.unsplash.com/photo-1573622845176-796ee66fcd03?auto=format&fit=crop&w=800&q=80",
+        collection: "Ramen Bowls & Tempura Dishes"
+      }
+    ];
+
+    const container = document.getElementById('restaurant-container');
+    const buttons = document.querySelectorAll('.filter-btn');
+
+    function renderRestaurants(category) {
+      container.innerHTML = '';
+      const filtered = category === 'all' ? restaurants : restaurants.filter(r => r.cuisine === category);
+      if(filtered.length === 0) {
+        container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; color:#888;">No restaurants found in this category.</p>';
+        return;
+      }
+      filtered.forEach(restaurant => {
+        const card = document.createElement('div');
+        card.className = 'restaurant-card';
+        card.innerHTML = `
+          <img src="${restaurant.image}" alt="${restaurant.name}" class="restaurant-img" />
+          <div class="restaurant-info">
+            <div class="restaurant-name">${restaurant.name}</div>
+            <div class="restaurant-cuisine">${restaurant.cuisine}</div>
+            <div class="collection-desc">${restaurant.collection}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const category = btn.getAttribute('data-category');
+        renderRestaurants(category);
+      });
+    });
+<div class="restaurant-photo" style="background-image: url('${restaurant.image}');"></div>
+
+    // Initial render
+    renderRestaurants('all');
+  </script>
+
+</body>
+</html>
+.restaurant-photo {
+  width: 100%;
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  border-bottom: 3px solid #e67e22;
+  position: relative;
+  filter: brightness(0.85);
+  transition: filter 0.3s ease;
+}
+
+.restaurant-card:hover .restaurant-photo {
+  filter: brightness(1);
+}
+
