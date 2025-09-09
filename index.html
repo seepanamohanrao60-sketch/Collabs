@@ -120,4 +120,79 @@
     <button class="filter-btn active" data-category="all">All</button>
     <button class="filter-btn" data-category="Character">Character</button>
     <button class="filter-btn" data-category="Environment">Environment</button>
-    <button cla
+    <button class="filter-btn" data-category="Abstract">Abstract</button>
+  </nav>
+
+  <main id="artist-container">
+    <!-- Artist cards injected via JS -->
+  </main>
+
+  <script>
+    const artists = [
+      {
+        name: "Alice Monroe",
+        category: "Character",
+        image: "https://via.placeholder.com/400x180/007bff/ffffff?text=Alice+Monroe",
+        collection: "Fantasy Warriors Pack"
+      },
+      {
+        name: "Ben Carter",
+        category: "Environment",
+        image: "https://via.placeholder.com/400x180/28a745/ffffff?text=Ben+Carter",
+        collection: "Sci-Fi Cities Vol. 2"
+      },
+      {
+        name: "Clara Smith",
+        category: "Abstract",
+        image: "https://via.placeholder.com/400x180/f39c12/ffffff?text=Clara+Smith",
+        collection: "3D Geometric Forms"
+      },
+      {
+        name: "Daniel Ruiz",
+        category: "Character",
+        image: "https://via.placeholder.com/400x180/dc3545/ffffff?text=Daniel+Ruiz",
+        collection: "Creature Concepts"
+      },
+      {
+        name: "Elena Tanaka",
+        category: "Environment",
+        image: "https://via.placeholder.com/400x180/6f42c1/ffffff?text=Elena+Tanaka",
+        collection: "Low Poly Nature Pack"
+      }
+    ];
+
+    const container = document.getElementById("artist-container");
+    const buttons = document.querySelectorAll(".filter-btn");
+
+    function renderArtists(filter) {
+      container.innerHTML = "";
+      const filtered = filter === "all" ? artists : artists.filter(a => a.category === filter);
+      filtered.forEach(artist => {
+        const card = document.createElement("div");
+        card.className = "artist-card";
+        card.innerHTML = `
+          <img src="${artist.image}" alt="${artist.name}" class="artist-image" />
+          <div class="artist-content">
+            <div class="artist-name">${artist.name}</div>
+            <div class="collection-info">Collection: ${artist.collection}</div>
+            <div class="category-tag">${artist.category}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        buttons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const category = btn.getAttribute("data-category");
+        renderArtists(category);
+      });
+    });
+
+    // Initial render
+    renderArtists("all");
+  </script>
+</body>
+</html>
